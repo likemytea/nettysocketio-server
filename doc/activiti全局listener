@@ -1,0 +1,28 @@
+https://www.cnblogs.com/redxun-cn/p/redxun_cn.html
+1.在  bean id="processEngineConfiguration" 里边配置如下：
+        <property name="eventListeners">
+          <list>
+            <ref bean="globalEventListener"/>
+          </list>
+        </property>
+   然后自定义个bean，如下：
+    <bean id="globalEventListener" class="com.chenxing.managesystem.listener.GlobalEventListener">
+       <property name="handlers">
+          <map>
+           <entry key="TASK_CREATED" value="taskCreateListener"/>
+           <entry key="TASK_COMPLETED" value="taskCompleteListener"/>
+           <entry key="TASK_ASSIGNED" value="taskAssignedListener"/>
+           <entry key="PROCESS_COMPLETED" value="processCompleteListener"/>
+           <entry key="ACTIVITY_STARTED" value="activityStartedListener"/>
+           <entry key="ACTIVITY_COMPLETED" value="activityCompletedListener"/>
+           <entry key="ACTIVITY_SIGNALED" value="activitySignaledListener"/>
+          </map>
+     </property>
+      </bean>         
+2.
+EventHandler.java
+GlobalEventListener.java
+TaskCreateListener.java
+WebAppUtil.java
+3.如果是用监听控制任务执行人，则把流程图里边的 assign里边的 执行人用户或组的配置去掉，即可。        
+        
