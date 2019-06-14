@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html> 
+<head>
+	<meta charset="UTF-8"> <title>SOCKET.IO DEMO</title>
+	<base> 
+	<script src="http://test.mystaticdomain.com/js/jquery.min.js?v=2.1.4"></script>
+	<script src="https://cdn.bootcss.com/socket.io/1.7.4/socket.io.min.js"></script> 
+	<style>
+        body {padding: 20px;}
+        #console {height: 450px;overflow: auto;}
+        .username-msg {color: orange;}
+        .connect-msg {color: green;}
+        .disconnect-msg {color: red;}
+    </style> 
+</head> 
+<body> 
+	<h1>测试聊天程序</h1> 
+	<div id="console" class="well"></div> 
+	<form class="well form-inline" onsubmit="return false;"> 
+	<input id="name" class="input-xlarge" type="hidden" placeholder="用户名称. . . " /> 
+	<input id="msg" type="text" onkeydown="keyup_submit(event);"/> 
+	<button type="button" onClick="sendMessage()" class="btn">发送</button> 
+	<button type="button" onClick="sendDisconnect()" class="btn">离线</button> 
+	<button type="button" onClick="reloadThis()" class="btn">上线</button> 
+	</form> 
+</body> 
+	<script type="text/javascript">
+    var socket;
+    connect();
+
+    function connect() {
+	
+	    var loginUserNum = 'chatClient2';
+        var opts = {
+            query: 'loginUserNum=' + loginUserNum
+        };
+        socket = io.connect('http://test.huayubenji.com:9099', opts);
+		
+        $("#name").val("访客" + parseInt(Math.random() * 100 + 1, 10));
+
+        socket.on('connect', function () {
+            console.log("连接成功");
+            serverOutput('<span class="connect-msg">欢迎光临!</span>');
+            socket.emit('chatevent', {
+                userId: 1,
+                userName: $("#name").val(),
+                receiveUserId: 2,
+                content: "已上线!"
+            });
+        });
+
+        socket.on('push_event', function (data) {
+            output('<span class="username-msg">' + '<img  src="images/head.jpg" height="32" width="32"/>' +
+                data.userName + ' : </span>' +
+                data.content);
+        });
+
+        socket.on('disconnect', function () {
+		    alert('oh,no');
+            serverOutput('<span class="disconnect-msg">' + $("#name").val() + '已下线! </span>');
+        });
+
+        socket.on('connect_msg',function(data){
+            console.log('server reply connect:',data);
+        });
+    }
+
+    function reloadThis() {
+        socket.disconnect();
+        connect();
+        console.log(socket);
+    }
+
+    function sendDisconnect() {
+        socket.emit('push_event', {
+            userId: 1,
+            userName: $("#name").val(),
+            receiveUserId: 2,
+            content: "已下线!"
+        });
+        socket.disconnect();
+    }
+
+    function sendMessage() {
+        var userName = $("#name").val();
+        var message = $('#msg').val();
+        socket.emit('push_event', {
+            userId: 1,
+            userName: userName,
+            receiveUserId: 2,
+			loginUserNum: 'chatClient2',
+            content: message
+        });
+    }
+
+    function output(message) {
+        var currentTime = "<span class='time' >" + new Date() + "</span>";
+        var element = $("<div>" + " " + message + "</div>");
+        $('#console').prepend(element);
+    }
+
+    function serverOutput(message) {
+        var element = $("<div>" + message + "</div>");
+        $('#console').prepend(element);
+    }
+	
+	
+	function keyup_submit(e){
+        var evt = window.event || e;
+        if (evt.keyCode == 13){
+            sendMessage();
+        }
+    }
+</script>
+</html>

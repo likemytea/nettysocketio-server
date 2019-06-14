@@ -36,7 +36,7 @@
      	        var $res = '';
      		   	 $.ajax({
      			     type:'post',
-     			     url:'http://localhost:8060/workflow/leave/complete',
+     			     url:'/workflow/leave/complete',
      			     async: false,
      			     data:{taskid:$taskid,keys:'agree',values:$beok,types:'B',designatedExecutor:$executor},
      			     cache:false,
@@ -62,7 +62,7 @@
     	        var $res = '';
     		   	 $.ajax({
     			     type:'post',
-    			     url:'http://localhost:8060/workflow/leave/complete',
+    			     url:'/workflow/leave/complete',
     			     async: false,
     			     data:{taskid:$taskid,keys:'input',values:$input,types:'S',designatedExecutor:$executor},
     			     cache:false,

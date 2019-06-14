@@ -8,9 +8,12 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.chenxing.managesystem.domain.PushMessage;
 import com.chenxing.managesystem.service.SocketIOService;
 import com.corundumstudio.socketio.SocketIOClient;
@@ -18,7 +21,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 
 @Service(value = "socketIOService")
 public class SocketIOServiceImpl implements SocketIOService {
-
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	// 用来存已连接的客户端
 	private static Map<String, SocketIOClient> clientMap = new ConcurrentHashMap<>();
 
@@ -66,7 +69,11 @@ public class SocketIOServiceImpl implements SocketIOService {
 
 		// 处理自定义的事件，与连接监听类似
 		socketIOServer.addEventListener(PUSH_EVENT, PushMessage.class, (client, data, ackSender) -> {
+			log.info("I im here" + JSON.toJSONString(client));
+			log.info(JSON.toJSONString(ackSender));
+			log.info(JSON.toJSONString(data));
 			// TODO do something
+			pushMessageToUser(data);
 		});
 		socketIOServer.start();
 	}

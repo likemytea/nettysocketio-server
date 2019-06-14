@@ -14,9 +14,9 @@ import org.springframework.context.annotation.ImportResource;
 @SpringBootApplication
 @MapperScan("com.chenxing.managesystem.mapper") // 将项目中对应的mapper类
 @ImportResource(locations = { "classpath:activiti.cfg.xml" }) // 引入xml配置文件
-public class ManagesystemApplication {
+public class NettysocketioApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ManagesystemApplication.class, args);
+		SpringApplication.run(NettysocketioApplication.class, args);
 	}
 }

@@ -134,7 +134,7 @@
          var $totalCount = 0;
 	   	 var toSend=$.ajax({
 		     type:'get',
-		     url:'http://localhost:8060/workflow/leave/findTasks',
+		     url:'/workflow/leave/findTasks',
 		     async: false,
 		     data:{currentpage:$page,pagesize:$pageSize},
 		     cache:false,

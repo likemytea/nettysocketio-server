@@ -12,7 +12,7 @@
 	        $("input[type='button']").bind("click", function() {    
 	            $.ajax({
 	                type : 'post',
-	                url:'http://localhost:8060/workflow/leave/start',
+	                url:'/workflow/leave/start',
 	                dataType : 'text',
 	                data : $('#f1').serialize(),  
 	                success : function (xmlq) {
