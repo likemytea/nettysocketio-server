@@ -1,5 +1,6 @@
 package com.chenxing.managesystem.service.impl;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.chenxing.managesystem.domain.PushMessage;
 import com.chenxing.managesystem.service.SocketIOService;
 import com.corundumstudio.socketio.SocketIOClient;
@@ -48,31 +48,40 @@ public class SocketIOServiceImpl implements SocketIOService {
 		stop();
 	}
 
+	private void printEventLog(String eventType, String loginid, Map<String, SocketIOClient> map) {
+
+		log.info("===SOCKET IO CONN EVNET======>eventType:{},loginid:{},mapContent:{}", eventType, loginid, map.size());
+		Iterator<Map.Entry<String, SocketIOClient>> it = map.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, SocketIOClient> entry = it.next();
+			log.info("key:{},value:{}", entry.getKey(), entry.getValue());
+		}
+
+	}
 	@Override
 	public void start() {
 		// 监听客户端连接
 		socketIOServer.addConnectListener(client -> {
-			String loginUserNum = getParamsByClient(client);
-			if (loginUserNum != null) {
-				clientMap.put(loginUserNum, client);
+			String loginId = getParamsByClient(client);
+			if (loginId != null) {
+				clientMap.put(loginId, client);
 			}
+			printEventLog("connect", loginId, clientMap);
 		});
 
 		// 监听客户端断开连接
 		socketIOServer.addDisconnectListener(client -> {
-			String loginUserNum = getParamsByClient(client);
-			if (loginUserNum != null) {
-				clientMap.remove(loginUserNum);
+			String loginId = getParamsByClient(client);
+			if (loginId != null) {
+				clientMap.remove(loginId);
 				client.disconnect();
 			}
+			printEventLog("disconnect", loginId, clientMap);
 		});
 
 		// 处理自定义的事件，与连接监听类似
 		socketIOServer.addEventListener(PUSH_EVENT, PushMessage.class, (client, data, ackSender) -> {
-			log.info("I im here" + JSON.toJSONString(client));
-			log.info(JSON.toJSONString(ackSender));
-			log.info(JSON.toJSONString(data));
-			// TODO do something
+			// do something
 			pushMessageToUser(data);
 		});
 		socketIOServer.start();
@@ -88,9 +97,9 @@ public class SocketIOServiceImpl implements SocketIOService {
 
 	@Override
 	public void pushMessageToUser(PushMessage pushMessage) {
-		String loginUserNum = String.valueOf(pushMessage.getLoginUserNum());
-		if (StringUtils.isNotBlank(loginUserNum)) {
-			SocketIOClient client = clientMap.get(loginUserNum);
+		String receiver = String.valueOf(pushMessage.getReceiver());
+		if (StringUtils.isNotBlank(receiver)) {
+			SocketIOClient client = clientMap.get(receiver);
 			if (client != null)
 				client.sendEvent(PUSH_EVENT, pushMessage);
 		}
@@ -105,7 +114,7 @@ public class SocketIOServiceImpl implements SocketIOService {
 	private String getParamsByClient(SocketIOClient client) {
 		// 从请求的连接中拿出参数（这里的loginUserNum必须是唯一标识）
 		Map<String, List<String>> params = client.getHandshakeData().getUrlParams();
-		List<String> list = params.get("loginUserNum");
+		List<String> list = params.get("sender");
 		if (list != null && list.size() > 0) {
 			return list.get(0);
 		}

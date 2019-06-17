@@ -1,43 +1,28 @@
 package com.chenxing.managesystem.domain;
-public class PushMessage {
 
-	private String loginUserNum;
-    private String content;
-	private String userId;
-	private String userName;
-	private String receiveUserId;
+import java.io.Serializable;
 
+public class PushMessage implements Serializable {
+	private static final long serialVersionUID = 8965223926827445665L;
+	private String sender;
+	private String nickName;
+	private String content;
+	private String receiver;
 
-	public String getUserId() {
-		return userId;
+	public String getSender() {
+		return sender;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setSender(String sender) {
+		this.sender = sender;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getNickName() {
+		return nickName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getReceiveUserId() {
-		return receiveUserId;
-	}
-
-	public void setReceiveUserId(String receiveUserId) {
-		this.receiveUserId = receiveUserId;
-	}
-
-	public String getLoginUserNum() {
-		return loginUserNum;
-	}
-
-	public void setLoginUserNum(String loginUserNum) {
-		this.loginUserNum = loginUserNum;
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 	public String getContent() {
@@ -47,5 +32,15 @@ public class PushMessage {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	public String getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
+
+
 
 }

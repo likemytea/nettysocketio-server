@@ -30,9 +30,9 @@
 
     function connect() {
 	
-	    var loginUserNum = 'chatClient2';
+	    var sender = 'client-proj';
         var opts = {
-            query: 'loginUserNum=' + loginUserNum
+            query: 'sender=' + sender
         };
         socket = io.connect('http://test.huayubenji.com:9099', opts);
 		
@@ -42,21 +42,20 @@
             console.log("连接成功");
             serverOutput('<span class="connect-msg">欢迎光临!</span>');
             socket.emit('chatevent', {
-                userId: 1,
-                userName: $("#name").val(),
-                receiveUserId: 2,
+                sender: 'client-proj',
+                nickName: $("#name").val(),
+                receiver: 'client-zhuomian',
                 content: "已上线!"
             });
         });
 
         socket.on('push_event', function (data) {
             output('<span class="username-msg">' + '<img  src="images/head.jpg" height="32" width="32"/>' +
-                data.userName + ' : </span>' +
+                data.nickName + ' : </span>' +
                 data.content);
         });
 
         socket.on('disconnect', function () {
-		    alert('oh,no');
             serverOutput('<span class="disconnect-msg">' + $("#name").val() + '已下线! </span>');
         });
 
@@ -73,9 +72,9 @@
 
     function sendDisconnect() {
         socket.emit('push_event', {
-            userId: 1,
-            userName: $("#name").val(),
-            receiveUserId: 2,
+            sender: 'client-proj',
+            nickName: $("#name").val(),
+            receiver: 'client-zhuomian',
             content: "已下线!"
         });
         socket.disconnect();
@@ -85,10 +84,9 @@
         var userName = $("#name").val();
         var message = $('#msg').val();
         socket.emit('push_event', {
-            userId: 1,
+            sender: 'client-proj',
             userName: userName,
-            receiveUserId: 2,
-			loginUserNum: 'chatClient2',
+            receiver: 'client-zhuomian',
             content: message
         });
     }
