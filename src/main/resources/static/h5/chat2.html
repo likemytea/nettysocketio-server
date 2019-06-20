@@ -34,7 +34,7 @@
         var opts = {
             query: 'sender=' + sender
         };
-        socket = io.connect('http://test.huayubenji.com:9099', opts);
+        socket = io.connect('http://172.16.31.43', opts);
 		
         $("#name").val("访客" + parseInt(Math.random() * 100 + 1, 10));
 

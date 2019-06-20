@@ -7,7 +7,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ImportResource;
 
 /**
- * .为了适应 ie8，不使用vue的版本
+ * 增加了nettysocketio IM 。
  */
 
 @EnableFeignClients

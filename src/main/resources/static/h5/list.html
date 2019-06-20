@@ -117,7 +117,7 @@
          var $totalCount = 0;
 	   	 var toSend=$.ajax({
 		     type:'get',
-		     url:'/system/user/list',
+		     url:'/nettysocketioManager/system/user/list',
 		     async: false,
 		     data:{currentpage:$page,pagesize:$pageSize},
 		     cache:false,
@@ -149,6 +149,6 @@
     }; 
     </script>
     <!-- 自定义js。特别说明：放在底部的js会在页面都渲染完才运行这些js -->
-    <script type="text/javascript" src="/css/tonginx-mypaging.js"></script>
+    <script type="text/javascript" src="http://test.mystaticdomain.com/js/myjs/mypaging.js"></script>
   </body>
 </html>

@@ -134,7 +134,7 @@
          var $totalCount = 0;
 	   	 var toSend=$.ajax({
 		     type:'get',
-		     url:'/workflow/leave/findTasks',
+		     url:'/nettysocketioManager/workflow/leave/findTasks',
 		     async: false,
 		     data:{currentpage:$page,pagesize:$pageSize},
 		     cache:false,
@@ -172,6 +172,6 @@
     }; 
     </script>
     <!-- 自定义js。特别说明：放在底部的js会在页面都渲染完才运行这些js -->
-    <script type="text/javascript" src="/css/leaveTaskList.js"></script>
+    <script type="text/javascript" src="http://test.mystaticdomain.com/js/myjs/leaveTaskList.js"></script>
   </body>
 </html>
