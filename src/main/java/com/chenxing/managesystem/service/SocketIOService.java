@@ -14,5 +14,5 @@ public interface SocketIOService {
 	void stop();
 
 	// 推送信息
-	void pushMessageToUser(PushMessage pushMessage);
+	int pushMessageToUser(PushMessage pushMessage);
 }

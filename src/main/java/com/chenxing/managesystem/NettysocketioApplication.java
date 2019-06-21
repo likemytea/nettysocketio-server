@@ -7,7 +7,9 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ImportResource;
 
 /**
- * 增加了nettysocketio IM 。
+ * 增加了nettysocketio IM 。 <br>
+ * 本工程约定 :<br>
+ * 1代表成功 2代表失败。
  */
 
 @EnableFeignClients

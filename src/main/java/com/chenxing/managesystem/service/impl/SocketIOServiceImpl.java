@@ -82,7 +82,8 @@ public class SocketIOServiceImpl implements SocketIOService {
 		// 处理自定义的事件，与连接监听类似
 		socketIOServer.addEventListener(PUSH_EVENT, PushMessage.class, (client, data, ackSender) -> {
 			// do something
-			pushMessageToUser(data);
+			int isSucc = pushMessageToUser(data);
+			ackSender.sendAckData(isSucc);
 		});
 		socketIOServer.start();
 	}
@@ -96,13 +97,18 @@ public class SocketIOServiceImpl implements SocketIOService {
 	}
 
 	@Override
-	public void pushMessageToUser(PushMessage pushMessage) {
+	public int pushMessageToUser(PushMessage pushMessage) {
+		int sendSucess = 2;
 		String receiver = String.valueOf(pushMessage.getReceiver());
 		if (StringUtils.isNotBlank(receiver)) {
 			SocketIOClient client = clientMap.get(receiver);
-			if (client != null)
+			if (client != null) {
 				client.sendEvent(PUSH_EVENT, pushMessage);
+				sendSucess = 1;
+			}
+
 		}
+		return sendSucess;
 	}
 
 	/**
