@@ -8,11 +8,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.chenxing.managesystem.domain.PushMessage;
 import com.chenxing.managesystem.service.SocketIOService;
@@ -58,6 +58,7 @@ public class SocketIOServiceImpl implements SocketIOService {
 		}
 
 	}
+
 	@Override
 	public void start() {
 		// 监听客户端连接
@@ -77,6 +78,7 @@ public class SocketIOServiceImpl implements SocketIOService {
 				client.disconnect();
 			}
 			printEventLog("disconnect", loginId, clientMap);
+			tishi(loginId);
 		});
 
 		// 处理自定义的事件，与连接监听类似
@@ -86,6 +88,23 @@ public class SocketIOServiceImpl implements SocketIOService {
 			ackSender.sendAckData(isSucc);
 		});
 		socketIOServer.start();
+	}
+
+	/**
+	 * 某用户离线时，向所有在线用户发送通知
+	 * 
+	 */
+	private void tishi(String loginId) {
+		PushMessage mess = new PushMessage();
+		mess.setContent(loginId + "离线！");
+
+		Iterator<Map.Entry<String, SocketIOClient>> iterator = clientMap.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry<String, SocketIOClient> entry = iterator.next();
+			mess.setReceiver(entry.getKey());
+			pushMessageToUser(mess);
+		}
+
 	}
 
 	@Override
@@ -100,7 +119,8 @@ public class SocketIOServiceImpl implements SocketIOService {
 	public int pushMessageToUser(PushMessage pushMessage) {
 		int sendSucess = 2;
 		String receiver = String.valueOf(pushMessage.getReceiver());
-		if (StringUtils.isNotBlank(receiver)) {
+
+		if (!StringUtils.isEmpty(receiver)) {
 			SocketIOClient client = clientMap.get(receiver);
 			if (client != null) {
 				client.sendEvent(PUSH_EVENT, pushMessage);

@@ -15,6 +15,10 @@
             column="password"
             property="password"
             jdbcType="VARCHAR" />
+        <result
+            column="friends"
+            property="friends"
+            jdbcType="VARCHAR" />
     </resultMap>
     
     <resultMap
@@ -30,7 +34,7 @@
             jdbcType="VARCHAR" />
     </resultMap>
         
-    <sql id="Base_Column_List"> sys_user_id, username, password
+    <sql id="Base_Column_List"> sys_user_id, username, password,friends
     </sql>
     <select
         id="selectByUserName"

@@ -1,5 +1,6 @@
 package com.chenxing.managesystem.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chenxing.managesystem.domain.Msg;
 import com.chenxing.managesystem.domain.SysUser;
+import com.chenxing.managesystem.service.SysUserService;
 
 /**
  * 主页面类
@@ -17,11 +19,15 @@ import com.chenxing.managesystem.domain.SysUser;
  */
 @Controller
 public class HomeController {
+
+	@Autowired
+	private SysUserService sysUserService;
+
 	@RequestMapping("/")
 	public String goHomePage(Model model) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		SysUser user = new SysUser();
-		user.setUsername(userDetails.getUsername());
+		SysUser user = sysUserService.findByUseName(userDetails.getUsername());
+		user.setFriendsList(user.getFriends().split(","));
 		model.addAttribute("user", user);
 		return "homepage";
 	}

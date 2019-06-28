@@ -10,7 +10,8 @@ public class SysUser {
     private Integer id;
     private String username;
     private String password;
-
+	private String friends;
+	private String[] friendsList;
     private List<SysRole> roles;
 
     public Integer getId() {
@@ -44,5 +45,22 @@ public class SysUser {
     public void setRoles(List<SysRole> roles) {
         this.roles = roles;
     }
+
+	public String getFriends() {
+		return friends;
+	}
+
+	public void setFriends(String friends) {
+		this.friends = friends;
+	}
+
+	public String[] getFriendsList() {
+		return friendsList;
+	}
+
+	public void setFriendsList(String[] friendsList) {
+		this.friendsList = friendsList;
+	}
+
 
 }
