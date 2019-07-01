@@ -4,33 +4,34 @@
 	<meta charset="UTF-8"> <title>SOCKET.IO DEMO</title>
 	<base> 
 	<script src="http://47.106.242.180/js/jquery.min.js?v=2.1.4"></script>
-	<script src="http://47.106.242.180/js/socket.io.min.1.7.4.js"></script> 
+	<script src="http://47.106.242.180/js/socket.io.min.1.7.4.js"></script>
 	<style>
         body {padding: 20px;}
-        #console {height: 450px;overflow: auto;}
-        .username-msg {color: orange;}
+        #console {height: 240px;overflow: auto;}
+        .username-msg {color: blue;}
         .connect-msg {color: green;}
         .disconnect-msg {color: red;}
-    </style> 
-</head> 
-<body> 
-        <h1>即时通信测试</h1>
-	<div id="console" class="well"></div> 
-	<form class="well form-inline" onsubmit="return false;"> 
+    </style>
+</head>
+<body>
+    <h1>即时通信测试</h1>
+	<div id="console" class="well"></div>
+	<form class="well form-inline" onsubmit="return false;">
 	<input id="username" class="input-xlarge" type="hidden" placeholder="用户名称. . . " />
 	<input id="userid" class="input-xlarge" type="hidden" placeholder="用户id. . . " />
-	<input id="msg" type="text" placeholder="按回车即发送..." onkeydown="keyup_submit(event);"/> 
-	<button type="button" onClick="sendMessage()" class="btn">发送</button> 
+	<input id="msg" type="text" placeholder="按回车即发送..." onkeydown="keyup_submit(event);"/>
+	<button type="button" onClick="sendMessage()" class="btn">发送</button>
 	<button type="button" onClick="sendDisconnect()" class="btn">离线</button> 
-	<button type="button" onClick="reloadThis()" class="btn">上线</button> 
-	</form> 
-	<!--<audio controls="controls" autoplay="autoplay">-->
-        <audio controls="controls" id="bgAudio">
+	<button type="button" onClick="reloadThis()" class="btn">上线</button>
+	</form>
+	<!--<audio audioControls="audioControls" autoplay="autoplay">-->
+        <audio audioControls="audioControls" id="bgAudio">
 	    <source src="http://47.106.242.180/mp3/guxiangyuanfengjing.mp3" type="audio/mpeg" />
 	    Your browser does not support the audio element.
 	</audio>	
 </body> 
 	<script type="text/javascript">
+	//调控音频播放大小
 	document.getElementById("bgAudio").volume = 0.2; 
     var socket;
     connect();
@@ -57,8 +58,7 @@
         });
 
         socket.on('push_event', function (data) {
-            output('<span class="username-msg"><img  src="http://47.106.242.180/img/'+receiver+'.jpg" height="32" width="32"/></span>' +
-                ' '+data.content);
+            output('<span class="username-msg"><img  src="http://47.106.242.180/img/'+receiver+'.jpg" height="32" width="32"/>'+data.content+'</span>');
         });
 
         socket.on('disconnect', function () {
@@ -131,5 +131,12 @@
             sendMessage();
         }
     }
+	/**通过js的正则表达式获取参数*/
+	function getQueryString(name)
+	{
+	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	     var r = window.location.search.substr(1).match(reg);
+	     if(r!=null)return  unescape(r[2]); return null;
+	}
 </script>
 </html>

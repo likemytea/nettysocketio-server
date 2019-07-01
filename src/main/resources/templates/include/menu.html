@@ -82,8 +82,8 @@
                     <li>
                         <a href="http://test.mystaticdomain.com/#"><i class="fa fa-table"></i> <span class="nav-label">通讯录</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level" th:each="str:${user.friendsList}">
-                            <li><a class="J_menuItem" href="/nettysocketioManager/h5/mychat.html" th:text="${str}"></a>
-                            </li>
+                            <li><a class="J_menuItem" th:href="@{'/h5/mychat.html?chatWith='+${str}}" th:text="${str}"></a>
+                            </li>                     
                         </ul>
                     </li>                    
                     
