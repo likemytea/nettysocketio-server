@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" >
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HTML5仿电脑端微信聊天窗口界面代码</title>
-
-<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
-<link rel="stylesheet" href="http://47.106.242.180/mychat/css/reset.min.css">
-<link rel="stylesheet" href="http://47.106.242.180/mychat/css/style.css">
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>HTML5仿电脑端微信聊天窗口界面代码</title>
+	<link rel="stylesheet" href="http://test.mystaticdomain.com/mychat/css/reset.min.css">
+	<link rel="stylesheet" href="http://test.mystaticdomain.com/mychat/css/style.css">
+	<script src="http://test.mystaticdomain.com/js/jquery.min.js?v=2.1.4"></script>
+	<script src="http://test.mystaticdomain.com/js/socket.io.min.1.7.4.js"></script>
 </head>
 <body>
 
@@ -20,39 +19,39 @@
                 <a href="javascript:;" class="search"></a>
             </div>
             <ul class="people">
-                <li class="person" data-chat="person1">
-                    <img src="http://47.106.242.180/mychat/img/thomas.jpg" alt="" />
+                <li class="person" person-chat="person1">
+                    <img src="http://test.mystaticdomain.com/mychat/img/thomas.jpg" alt="" />
                     <span class="name">Thomas Bangalter</span>
                     <span class="time">2:09 PM</span>
                     <span class="preview">I was wondering...</span>
                 </li>
-                <li class="person" data-chat="person2">
-                    <img src="http://47.106.242.180/mychat/img/dog.png" alt="" />
+                <li class="person" person-chat="person2">
+                    <img src="http://test.mystaticdomain.com/mychat/img/dog.png" alt="" />
                     <span class="name">Dog Woofson</span>
                     <span class="time">1:44 PM</span>
                     <span class="preview">I've forgotten how it felt before</span>
                 </li>
-                <li class="person" data-chat="person3">
-                    <img src="http://47.106.242.180/mychat/img/louis-ck.jpeg" alt="" />
+                <li class="person" person-chat="person3">
+                    <img src="http://test.mystaticdomain.com/mychat/img/louis-ck.jpeg" alt="" />
                     <span class="name">Louis CK</span>
                     <span class="time">2:09 PM</span>
                     <span class="preview">But we’re probably gonna need a new carpet.</span>
                 </li>
-                <li class="person" data-chat="person4">
-                    <img src="http://47.106.242.180/mychat/img/bo-jackson.jpg" alt="" />
+                <li class="person" person-chat="person4">
+                    <img src="http://test.mystaticdomain.com/mychat/img/bo-jackson.jpg" alt="" />
                     <span class="name">Bo Jackson</span>
                     <span class="time">2:09 PM</span>
                     <span class="preview">It’s not that bad...</span>
                 </li>
-                <li class="person" data-chat="person5">
-                    <img src="http://47.106.242.180/mychat/img/michael-jordan.jpg" alt="" />
+                <li class="person" person-chat="person5">
+                    <img src="http://test.mystaticdomain.com/mychat/img/michael-jordan.jpg" alt="" />
                     <span class="name">Michael Jordan</span>
                     <span class="time">2:09 PM</span>
                     <span class="preview">Wasup for the third time like is 
 you blind bitch</span>
                 </li>
-                <li class="person" data-chat="person6">
-                    <img src="http://47.106.242.180/mychat/img/drake.jpg" alt="" />
+                <li class="person" person-chat="person6">
+                    <img src="http://test.mystaticdomain.com/mychat/img/drake.jpg" alt="" />
                     <span class="name">Drake</span>
                     <span class="time">2:09 PM</span>
                     <span class="preview">howdoyoudoaspace</span>
@@ -184,7 +183,7 @@ you blind bitch</span>
             </div>
             <div class="write">
                 <a href="javascript:;" class="write-link attach"></a>
-                <input type="text" />
+                <input id="msg" type="text" placeholder="在这里说点儿什么   ...." onkeydown="keyup_submit(event);"/>
                 <a href="javascript:;" class="write-link smiley"></a>
                 <a href="javascript:;" class="write-link send"></a>
             </div>
@@ -192,11 +191,14 @@ you blind bitch</span>
     </div>
 </div>
 
-<script  src="http://47.106.242.180/mychat/js/index.js"></script>
+<script  src="http://test.mystaticdomain.com/mychat/js/index.js"></script>
 
 <div style="text-align:center;margin:1px 0; font:normal 14px/24px 'MicroSoft YaHei';">
 <p>适用浏览器：360、FireFox、Chrome、Opera、傲游、搜狗、世界之窗. 不支持Safari、IE8及以下浏览器。</p>
 <p>来源：<a href="http://www.lanrenzhijia.com/" target="_blank">懒人</a></p>
 </div>
+<script type="text/javascript">
+
+</script>
 </body>
 </html>
