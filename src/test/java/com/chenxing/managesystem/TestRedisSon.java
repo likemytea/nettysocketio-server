@@ -2,9 +2,11 @@ package com.chenxing.managesystem;
 
 import org.redisson.Redisson;
 import org.redisson.api.RBucket;
+import org.redisson.api.RList;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 
+import com.alibaba.fastjson.JSON;
 import com.chenxing.managesystem.domain.PushMessage;
 
 public class TestRedisSon {
@@ -15,9 +17,26 @@ public class TestRedisSon {
 		b.set("hello32424你好");
 		RBucket<PushMessage> getRBucket = client.getBucket("test1");
 		System.out.println(getRBucket.get());
+		// r.testList1(client);
+		r.testList2(client);
 		client.shutdown();
 	}
 
+	private void testList1(RedissonClient c) {
+		RList<String> list = c.getList("liuxing");
+		list.add("yuchen");
+		list.add("hanxiao");
+		list.add("zhouming");
+		list.add("18911027837");
+		list.add("15923234562");
+		list.add("13222234562");
+		list.add("13439364763");
+	}
+
+	private void testList2(RedissonClient c) {
+		RList<String> list = c.getList("liuxing");
+		System.out.println(JSON.toJSONString(list));
+	}
 	private void saveKEYS() {
 		// 存值
 		PushMessage m = new PushMessage();
