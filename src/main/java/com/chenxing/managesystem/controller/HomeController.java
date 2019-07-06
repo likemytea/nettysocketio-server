@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.chenxing.managesystem.domain.Msg;
 import com.chenxing.managesystem.domain.SysUser;
 import com.chenxing.managesystem.service.SysUserService;
 
@@ -30,13 +29,6 @@ public class HomeController {
 		user.setFriendsList(user.getFriends().split(","));
 		model.addAttribute("user", user);
 		return "homepage";
-	}
-
-	@RequestMapping("/homepage")
-	public String index(Model model) {
-		Msg msg = new Msg("测试标题", "测试内容", "欢迎来到HOME页面,您拥有 ROLE_HOME 权限");
-		model.addAttribute("msg", msg);
-		return "home";
 	}
 
 	@RequestMapping("/login")

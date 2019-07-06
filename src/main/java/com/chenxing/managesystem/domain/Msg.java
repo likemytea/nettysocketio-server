@@ -1,37 +1,41 @@
 package com.chenxing.managesystem.domain;
 
+import java.util.Map;
+
 /**
- * Created by liuxing on 17/1/17.
+ * Created by liuxing on 19/6/17.
  */
 
-    public class Msg {
-        private String title;
-        private String content;
-        private String etraInfo;
+public class Msg {
+	// 消息id，这里指双方的userid组合，组合顺序为字典序升序。
+	private String msgId;
+	// 这里指聊天对象
+	private String userId;
 
-        public Msg(String title, String content, String etraInfo) {
-            super();
-            this.title = title;
-            this.content = content;
-            this.etraInfo = etraInfo;
-        }
-        public String getTitle() {
-            return title;
-        }
-        public void setTitle(String title) {
-            this.title = title;
-        }
-        public String getContent() {
-            return content;
-        }
-        public void setContent(String content) {
-            this.content = content;
-        }
-        public String getEtraInfo() {
-            return etraInfo;
-        }
-        public void setEtraInfo(String etraInfo) {
-            this.etraInfo = etraInfo;
-        }
+	private Map<Long, String> content;
 
-    }
+	public String getMsgId() {
+		return msgId;
+	}
+
+	public void setMsgId(String msgId) {
+		this.msgId = msgId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public Map<Long, String> getContent() {
+		return content;
+	}
+
+	public void setContent(Map<Long, String> content) {
+		this.content = content;
+	}
+
+}

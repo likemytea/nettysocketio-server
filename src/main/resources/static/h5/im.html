@@ -18,44 +18,8 @@
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
             </div>
-            <ul class="people">
-                <li class="person" person-chat="person1">
-                    <img src="http://test.mystaticdomain.com/mychat/img/thomas.jpg" alt="" />
-                    <span class="name">Thomas Bangalter</span>
-                    <span class="time">2:09 PM</span>
-                    <span class="preview">I was wondering...</span>
-                </li>
-                <li class="person" person-chat="person2">
-                    <img src="http://test.mystaticdomain.com/mychat/img/dog.png" alt="" />
-                    <span class="name">Dog Woofson</span>
-                    <span class="time">1:44 PM</span>
-                    <span class="preview">I've forgotten how it felt before</span>
-                </li>
-                <li class="person" person-chat="person3">
-                    <img src="http://test.mystaticdomain.com/mychat/img/louis-ck.jpeg" alt="" />
-                    <span class="name">Louis CK</span>
-                    <span class="time">2:09 PM</span>
-                    <span class="preview">But we’re probably gonna need a new carpet.</span>
-                </li>
-                <li class="person" person-chat="person4">
-                    <img src="http://test.mystaticdomain.com/mychat/img/bo-jackson.jpg" alt="" />
-                    <span class="name">Bo Jackson</span>
-                    <span class="time">2:09 PM</span>
-                    <span class="preview">It’s not that bad...</span>
-                </li>
-                <li class="person" person-chat="person5">
-                    <img src="http://test.mystaticdomain.com/mychat/img/michael-jordan.jpg" alt="" />
-                    <span class="name">Michael Jordan</span>
-                    <span class="time">2:09 PM</span>
-                    <span class="preview">Wasup for the third time like is 
-you blind bitch</span>
-                </li>
-                <li class="person" person-chat="person6">
-                    <img src="http://test.mystaticdomain.com/mychat/img/drake.jpg" alt="" />
-                    <span class="name">Drake</span>
-                    <span class="time">2:09 PM</span>
-                    <span class="preview">howdoyoudoaspace</span>
-                </li>
+            <ul class="people" id="friends">
+              
             </ul>
         </div>
         <div class="right">
@@ -200,6 +164,10 @@ you blind bitch</span>
 <input id="username" class="input-xlarge" type="hidden" placeholder="用户名称. . . " />
 <input id="userid" class="input-xlarge" type="hidden" placeholder="用户id. . . " />
 <script type="text/javascript">
+var socket;
+var userId = getQueryString('userId');
+connect(userId);
+
 document.querySelector('.chat[data-chat=person2]').classList.add('active-chat');
 document.querySelector('.person[person-chat=person2]').classList.add('active');
 var msg='';
@@ -234,21 +202,17 @@ function setAciveChat(f) {
   $('[data-chat="' + chat.person + '"]').scrollTop($('[data-chat="' + chat.person + '"]')[0].scrollHeight);
  // $('[data-chat="' + chat.person + '"]').append(element);
 }
-var socket;
-connect();
 var receiver = '雨晨';
-function connect() {
-	var sender ='刘兴';
+function connect(userId) {
     var opts = {
-        query: 'sender=' + sender
+        query: 'sender=' + userId
     };
     socket = io.connect('http://test.huayubenji.com:9099', opts);
 	
-    $("#username").val(sender);
-    $("#userid").val(sender);
+    $("#username").val(userId);
+    $("#userid").val(userId);
     socket.on('connect', function () {
-        
-        isOnline('上线');
+        getFriendsLst(userId);
     });
 
     socket.on('push_event', function (data) {
@@ -260,7 +224,7 @@ function connect() {
     });
 }
 function isOnline(message) {
-	//alert('网络良好，已经在线');
+	alert('网络良好，已经在线');
 }
 
 /**对话框回车事件*/
@@ -302,6 +266,38 @@ function showReceivedMessage(msg) {
     var element = $('<div class="bubble you">' + ' ' + msg + '</div>');
     $('[data-chat="' + chat.person + '"]').append(element);
 	$('[data-chat="' + chat.person + '"]').scrollTop($('[data-chat="' + chat.person + '"]')[0].scrollHeight);
+}
+
+//获取friends列表
+function getFriendsLst($userId){
+   	 $.ajax({
+	     type:'get',
+	     url:'/nettysocketioManager/im/friends/list',
+	     async: false,
+	     data:{userId:$userId},
+	     cache:false,
+	     dataType:'json',
+	     success:function(data){
+	    	 for(var i = 0; i < data.length; i++){
+	    	     var element = $('<li class="person" person-chat='+data[i]+'><img src="http://test.mystaticdomain.com/mychat/img/'+data[i]+'.jpg" alt="" />'+data[i]+'</li>');
+	    	     $("#friends").append(element);
+	    	 }
+	     },
+         error:function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(XMLHttpRequest.responseText);
+           //  alert(XMLHttpRequest.status);
+           //  alert(XMLHttpRequest.readyState);
+           //  alert(textStatus);
+         }
+	 });
+}
+
+/**通过js的正则表达式获取参数*/
+function getQueryString(userId)
+{
+     var reg = new RegExp("(^|&)"+ userId +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
 }
 </script>
 </body>
