@@ -121,7 +121,8 @@ function connect(userId) {
     });
 
     socket.on('push_event', function (data) {
-    
+        //来消息时朋友列表闪烁
+        $('[person-chat="' + data.sender + '"]').css("background", "#eee");
     	showReceivedMessage(data);
     });
 
@@ -166,15 +167,17 @@ function sendMess(){
 function showSendedMessage(msg) {
     var element = $('<div class="bubble me">' + ' ' + msg + '</div>');
     $('[data-chat="' + chat.person + '"]').append(element);
-	$('[data-chat="' + chat.person + '"]').scrollTop($('[data-chat="' + chat.person + '"]')[0].scrollHeight);
+    if($('[data-chat="' + chat.person + '"]').length>0){
+	    $('[data-chat="' + chat.person + '"]').scrollTop($('[data-chat="' + chat.person + '"]')[0].scrollHeight);
+	}
 }
-//jieshou
+
 function showReceivedMessage(data) {
     var element = $('<div class="bubble you">' + ' ' + data.content + '</div>');
     $('[data-chat="' + data.sender + '"]').append(element);
-	$('[data-chat="' + chat.person + '"]').scrollTop($('[data-chat="' + chat.person + '"]')[0].scrollHeight);
-	
-	$('[person-chat="' + data.sender + '"]').css("background", "#eee");//todo
+    if($('[data-chat="' + chat.person + '"]').length>0){
+        $('[data-chat="' + chat.person + '"]').scrollTop($('[data-chat="' + chat.person + '"]')[0].scrollHeight);    
+    }
 }
 
 //获取friends列表
