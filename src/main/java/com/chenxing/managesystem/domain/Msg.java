@@ -1,41 +1,42 @@
 package com.chenxing.managesystem.domain;
 
-import java.util.Map;
+import java.io.Serializable;
 
 /**
  * Created by liuxing on 19/6/17.
  */
 
-public class Msg {
-	// 消息id，这里指双方的userid组合，组合顺序为字典序升序。
-	private String msgId;
-	// 这里指聊天对象
-	private String userId;
+public class Msg implements Serializable {
+	private static final long serialVersionUID = -1089625566106374537L;
+	// 发送消息的用户userId
+	private String u;
+	// 消息类型 s:string p:图片 y:语音 t:时间
+	private String t;
+	// 发送的消息
+	private String c;
 
-	private Map<Long, String> content;
-
-	public String getMsgId() {
-		return msgId;
+	public String getU() {
+		return u;
 	}
 
-	public void setMsgId(String msgId) {
-		this.msgId = msgId;
+	public void setU(String u) {
+		this.u = u;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getT() {
+		return t;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setT(String t) {
+		this.t = t;
 	}
 
-	public Map<Long, String> getContent() {
-		return content;
+	public String getC() {
+		return c;
 	}
 
-	public void setContent(Map<Long, String> content) {
-		this.content = content;
+	public void setC(String c) {
+		this.c = c;
 	}
 
 }

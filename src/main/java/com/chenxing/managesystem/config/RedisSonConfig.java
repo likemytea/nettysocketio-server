@@ -19,7 +19,7 @@ public class RedisSonConfig {
 	@Bean
 	public RedissonClient getRedisSonClient() {
 		Config redissonConfig = new Config();
-		redissonConfig.setCodec(new org.redisson.client.codec.StringCodec());
+
 		redissonConfig.useSingleServer().setDatabase(0).setConnectionMinimumIdleSize(2).setAddress(host);
 		RedissonClient redissonClient = Redisson.create(redissonConfig);
 		return redissonClient;

@@ -15,14 +15,25 @@ import com.chenxing.managesystem.service.IMService;
  * Created by liuxing on 19/7/6.
  */
 @Controller
-@RequestMapping(value = "/im/friends")
+@RequestMapping(value = "/im")
 public class IMController {
 	@Autowired
 	private IMService iMService;
 
 	@ResponseBody
-	@RequestMapping(value = "/list", method = { RequestMethod.GET }, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/friends/list", method = {
+			RequestMethod.GET }, produces = "application/json;charset=UTF-8")
 	public String getFriendsByClientId(@RequestParam String userId) {
 		return iMService.getFriendsByClientId(userId);
+	}
+
+	/**
+	 * 获取消息
+	 * 
+	 **/
+	@ResponseBody
+	@RequestMapping(value = "/chat/msg", method = { RequestMethod.GET }, produces = "application/json;charset=UTF-8")
+	public String getChatMsg(@RequestParam String userId, @RequestParam String friend) {
+		return iMService.getChatMsg(userId, friend);
 	}
 }
