@@ -26,7 +26,7 @@ public class HomeController {
 	public String goHomePage(Model model) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		SysUser user = sysUserService.findByUseName(userDetails.getUsername());
-		user.setFriendsList(user.getFriends().split(","));
+		// user.setFriendsList(user.getFriends().split(","));
 		model.addAttribute("user", user);
 		return "homepage";
 	}

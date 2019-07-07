@@ -98,7 +98,7 @@ public class TestRedisSon {
 	}
 
 	private void testList1(RedissonClient c) {
-		RList<String> list = c.getList("yuchen", new org.redisson.client.codec.StringCodec());
+		RList<String> list = c.getList("hanxiao", new org.redisson.client.codec.StringCodec());
 		list.add("liuxing");
 		list.add("hanxiao");
 		list.add("zhouming");

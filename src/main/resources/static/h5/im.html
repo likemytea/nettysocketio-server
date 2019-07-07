@@ -71,11 +71,12 @@ function initDataAndAddListener(){
 	  
 	friends.all.forEach(function (f) {
 	  f.addEventListener('mousedown', function () {
-	  
 	    //展示对话框
 	    $(".write").css('display','');
 	    chatPerson = f.getAttribute('person-chat');
 	    
+	    //取消来消息时朋友列表闪烁功能
+        $('[person-chat="' + chatPerson + '"]').css("background", "");
 	    //填充聊天信息
 	    fillUpMessage(chatPerson);
 	    f.classList.contains('active') || setAciveChat(f);
@@ -122,7 +123,9 @@ function connect(userId) {
 
     socket.on('push_event', function (data) {
         //来消息时朋友列表闪烁
-        $('[person-chat="' + data.sender + '"]').css("background", "#eee");
+        if(data.sender!=chatPerson){
+            $('[person-chat="' + data.sender + '"]').css("background", "yellow");
+        }
     	showReceivedMessage(data);
     });
 
