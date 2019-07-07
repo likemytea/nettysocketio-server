@@ -8,6 +8,16 @@ public class PushMessage implements Serializable {
 	private String nickName;
 	private String content;
 	private String chatPerson;
+	// 朋友列表 flst
+	private String actionType;
+
+	public String getActionType() {
+		return actionType;
+	}
+
+	public void setActionType(String actionType) {
+		this.actionType = actionType;
+	}
 
 	public String getSender() {
 		return sender;

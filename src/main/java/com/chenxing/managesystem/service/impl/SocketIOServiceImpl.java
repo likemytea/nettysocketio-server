@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.chenxing.managesystem.domain.PushMessage;
+import com.chenxing.managesystem.service.IMService;
 import com.chenxing.managesystem.service.SocketIOService;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
@@ -27,6 +28,9 @@ public class SocketIOServiceImpl implements SocketIOService {
 
 	@Autowired
 	private SocketIOServer socketIOServer;
+
+	@Autowired
+	private IMService iMService;
 
 	/**
 	 * Spring IoC容器创建之后，在加载SocketIOServiceImpl Bean之后启动
@@ -83,9 +87,13 @@ public class SocketIOServiceImpl implements SocketIOService {
 
 		// 处理自定义的事件，与连接监听类似
 		socketIOServer.addEventListener(PUSH_EVENT, PushMessage.class, (client, data, ackSender) -> {
-			// do something
-			int isSucc = pushMessageToUser(data);
-			ackSender.sendAckData(isSucc);
+			if ("getMsg".equals(data.getActionType())) {
+				String rtnData = iMService.getChatMsg(data.getSender(), data.getChatPerson());
+				ackSender.sendAckData(rtnData);
+			} else {
+				int isSucc = pushMessageToUser(data);
+				ackSender.sendAckData(isSucc);
+			}
 		});
 		socketIOServer.start();
 	}

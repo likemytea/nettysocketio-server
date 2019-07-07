@@ -117,7 +117,7 @@ function connect(userId) {
     $("#userid").val(userId);
     socket.on('connect', function () {
         getFriendsLst(userId);
-        initDataAndAddListener();
+        
     });
 
     socket.on('push_event', function (data) {
@@ -185,7 +185,7 @@ function getFriendsLst($userId){
    	 $.ajax({
 	     type:'get',
 	     url:'/nettysocketioManager/im/friends/list',
-	     async: false,
+	     async: true,
 	     data:{userId:$userId},
 	     cache:false,
 	     dataType:'json',
@@ -200,13 +200,40 @@ function getFriendsLst($userId){
 	             $("#chatSpace").append(chatSpace);
 	    	     
 	    	 }
+	    	 //初始化基本数据及为朋友列表添加监听事件
+	    	 initDataAndAddListener();
 	     },
          error:function(XMLHttpRequest, textStatus, errorThrown) {
            alert(XMLHttpRequest.responseText);
          }
 	 });
 }
+
+
 //获取某个聊天信息
+function getMsg(userId,friend){
+    socket.emit('push_event', {
+        actionType:'getMsg',
+        sender: userId,
+        chatPerson: friend
+    },function (answer) {
+             data = $.parseJSON(answer);
+	         //获取聊天信息。
+	    	 for(var i = 0; i < data.length; i++){
+	    	    var element;
+	    	    if(data[i]['u']===userId){
+	    	       element = $('<div class="bubble me">' + ' ' + data[i]['c'] + '</div>');
+	    	    }else{
+	    	       element = $('<div class="bubble you">' + ' ' + data[i]['c'] + '</div>');
+	    	    }
+			    $('[data-chat="' + friend + '"]').append(element);
+				$('[data-chat="' + friend + '"]').scrollTop($('[data-chat="' + friend + '"]')[0].scrollHeight);
+	    	 }
+    });
+}
+
+//获取某个聊天信息
+/***
 function getMsg(userId,friend){
    	 $.ajax({
 	     type:'get',
@@ -232,6 +259,7 @@ function getMsg(userId,friend){
          }
 	 });
 }
+***/
 /**通过js的正则表达式获取参数*/
 function getQueryString(userId)
 {
