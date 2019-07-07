@@ -101,7 +101,7 @@ public class SocketIOServiceImpl implements SocketIOService {
 		Iterator<Map.Entry<String, SocketIOClient>> iterator = clientMap.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Map.Entry<String, SocketIOClient> entry = iterator.next();
-			mess.setReceiver(entry.getKey());
+			mess.setChatPerson(entry.getKey());
 			pushMessageToUser(mess);
 		}
 
@@ -118,7 +118,7 @@ public class SocketIOServiceImpl implements SocketIOService {
 	@Override
 	public int pushMessageToUser(PushMessage pushMessage) {
 		int sendSucess = 2;
-		String receiver = String.valueOf(pushMessage.getReceiver());
+		String receiver = String.valueOf(pushMessage.getChatPerson());
 
 		if (!StringUtils.isEmpty(receiver)) {
 			SocketIOClient client = clientMap.get(receiver);

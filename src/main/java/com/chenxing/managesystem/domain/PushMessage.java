@@ -7,7 +7,7 @@ public class PushMessage implements Serializable {
 	private String sender;
 	private String nickName;
 	private String content;
-	private String receiver;
+	private String chatPerson;
 
 	public String getSender() {
 		return sender;
@@ -33,14 +33,12 @@ public class PushMessage implements Serializable {
 		this.content = content;
 	}
 
-	public String getReceiver() {
-		return receiver;
+	public String getChatPerson() {
+		return chatPerson;
 	}
 
-	public void setReceiver(String receiver) {
-		this.receiver = receiver;
+	public void setChatPerson(String chatPerson) {
+		this.chatPerson = chatPerson;
 	}
-
-
 
 }

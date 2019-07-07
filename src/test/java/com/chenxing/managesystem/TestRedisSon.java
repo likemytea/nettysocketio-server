@@ -18,7 +18,7 @@ public class TestRedisSon {
 		TestRedisSon r = new TestRedisSon();
 		RedissonClient client = r.getRedisSonClient();
 		// r.saveKEYS();
-		r.testList4(client);
+		r.testList1(client);
 		// r.testList8(client);
 		client.shutdown();
 	}
@@ -98,14 +98,10 @@ public class TestRedisSon {
 	}
 
 	private void testList1(RedissonClient c) {
-		RList<String> list = c.getList("liuxing");
-		list.add("yuchen");
+		RList<String> list = c.getList("yuchen", new org.redisson.client.codec.StringCodec());
+		list.add("liuxing");
 		list.add("hanxiao");
 		list.add("zhouming");
-		list.add("18911027837");
-		list.add("15923234562");
-		list.add("13222234562");
-		list.add("13439364763");
 	}
 
 	// private void testList3(RedissonClient c) {

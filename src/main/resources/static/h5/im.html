@@ -49,6 +49,7 @@ var msg='';
 var friends;
 var chat;
 var userId = getQueryString('userId');
+var chatPerson = '';
 connect(userId);
 
 //document.querySelector('.chat[data-chat=person2]').classList.add('active-chat');
@@ -72,17 +73,17 @@ function initDataAndAddListener(){
 	  
 	    //展示对话框
 	    $(".write").css('display','');
+	    chatPerson = f.getAttribute('person-chat');
 	    
 	    //填充聊天信息
-	    fillUpMessage(f);
+	    fillUpMessage(chatPerson);
 	    f.classList.contains('active') || setAciveChat(f);
 	  });
 	});
 }
 
-function fillUpMessage(f){
-	//获取当前选中的聊天对象的聊天记录
-	var chatPerson = f.getAttribute('person-chat');
+function fillUpMessage(chatPerson){
+
 	//如果这是刚开始和此人聊天，则从后台获取之前的聊天纪录。
 	if($('[data-chat="' + chatPerson + '"]').length===0){
 	    //添加此人聊天div
@@ -111,7 +112,7 @@ function setAciveChat(f) {
   $('[data-chat="' + chat.person + '"]').scrollTop($('[data-chat="' + chat.person + '"]')[0].scrollHeight);
  // $('[data-chat="' + chat.person + '"]').append(element);
 }
-var receiver = '雨晨';
+
 function connect(userId) {
     var opts = {
         query: 'sender=' + userId
@@ -153,7 +154,7 @@ function sendMess(){
     socket.emit('push_event', {
         sender: $("#userid").val(),
         nickName: $("#username").val(),
-        receiver: receiver,
+        chatPerson: chatPerson,
         content: msg
     },function (answer) {
     	if(answer===1){
