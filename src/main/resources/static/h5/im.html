@@ -50,6 +50,7 @@ var friends;
 var chat;
 var userId = getQueryString('userId');
 var chatPerson = '';
+var divid=1;
 connect(userId);
 
 //document.querySelector('.chat[data-chat=person2]').classList.add('active-chat');
@@ -83,17 +84,10 @@ function initDataAndAddListener(){
 }
 
 function fillUpMessage(chatPerson){
-
-	//如果这是刚开始和此人聊天，则从后台获取之前的聊天纪录。
-	if($('[data-chat="' + chatPerson + '"]').length===0){
-	    //添加此人聊天div
-	    var chatSpace = $('<div class="chat" data-chat="'+chatPerson+'"></div>');
-	    $("#chatSpace").append(chatSpace);
-        //从后台获取聊天纪录
-        getMsg(userId,chatPerson);
-
-	}
-	
+    if($("#"+chatPerson).children().length===0){
+	    //从后台获取聊天纪录
+	    getMsg(userId,chatPerson);
+    }
 }
 
 function setAciveChat(f) {
@@ -127,7 +121,8 @@ function connect(userId) {
     });
 
     socket.on('push_event', function (data) {
-    	showReceivedMessage(data.content);
+    
+    	showReceivedMessage(data);
     });
 
     socket.on('disconnect', function () {
@@ -135,7 +130,7 @@ function connect(userId) {
     });
 }
 function isOnline(message) {
-	alert('网络良好，已经在线');
+	alert(message);
 }
 
 /**对话框回车事件*/
@@ -173,10 +168,13 @@ function showSendedMessage(msg) {
     $('[data-chat="' + chat.person + '"]').append(element);
 	$('[data-chat="' + chat.person + '"]').scrollTop($('[data-chat="' + chat.person + '"]')[0].scrollHeight);
 }
-function showReceivedMessage(msg) {
-    var element = $('<div class="bubble you">' + ' ' + msg + '</div>');
-    $('[data-chat="' + chat.person + '"]').append(element);
+//jieshou
+function showReceivedMessage(data) {
+    var element = $('<div class="bubble you">' + ' ' + data.content + '</div>');
+    $('[data-chat="' + data.sender + '"]').append(element);
 	$('[data-chat="' + chat.person + '"]').scrollTop($('[data-chat="' + chat.person + '"]')[0].scrollHeight);
+	
+	$('[person-chat="' + data.sender + '"]').css("background", "#eee");//todo
 }
 
 //获取friends列表
@@ -189,16 +187,19 @@ function getFriendsLst($userId){
 	     cache:false,
 	     dataType:'json',
 	     success:function(data){
+	         //展示朋友列表，并预置每个朋友聊天层，以便接收朋友发送过来的消息。
 	    	 for(var i = 0; i < data.length; i++){
 	    	     var myFriends = $('<li class="person" person-chat='+data[i]+'><img src="http://test.mystaticdomain.com/mychat/img/'+data[i]+'.jpg" alt="" /><span class="name">'+data[i]+'</span></li>');
 	    	     $("#friends").append(myFriends);
+	    	     
+	    	     //添加此人聊天div
+	             var chatSpace = $('<div id='+data[i]+' class="chat" data-chat="'+data[i]+'"></div>');
+	             $("#chatSpace").append(chatSpace);
+	    	     
 	    	 }
 	     },
          error:function(XMLHttpRequest, textStatus, errorThrown) {
            alert(XMLHttpRequest.responseText);
-           //  alert(XMLHttpRequest.status);
-           //  alert(XMLHttpRequest.readyState);
-           //  alert(textStatus);
          }
 	 });
 }
