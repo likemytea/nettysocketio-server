@@ -25,7 +25,7 @@
         <div class="right" id="chatSpace">
             <div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>
          
-            <div class="write">
+            <div class="write" style="display:none">
                 <a href="javascript:;" class="write-link attach"></a>
                 <input id="msg" type="text" placeholder="在这里说点儿什么   ...." onkeydown="keyup_submit(event);"/>
                 <a href="javascript:;" class="write-link smiley"></a>
@@ -69,6 +69,10 @@ function initDataAndAddListener(){
 	  
 	friends.all.forEach(function (f) {
 	  f.addEventListener('mousedown', function () {
+	  
+	    //展示对话框
+	    $(".write").css('display','');
+	    
 	    //填充聊天信息
 	    fillUpMessage(f);
 	    f.classList.contains('active') || setAciveChat(f);
@@ -79,12 +83,12 @@ function initDataAndAddListener(){
 function fillUpMessage(f){
 	//获取当前选中的聊天对象的聊天记录
 	var chatPerson = f.getAttribute('person-chat');
-	
+	//如果这是刚开始和此人聊天，则从后台获取之前的聊天纪录。
 	if($('[data-chat="' + chatPerson + '"]').length===0){
-	
+	    //添加此人聊天div
 	    var chatSpace = $('<div class="chat" data-chat="'+chatPerson+'"></div>');
 	    $("#chatSpace").append(chatSpace);
-
+        //从后台获取聊天纪录
         getMsg(userId,chatPerson);
 
 	}
