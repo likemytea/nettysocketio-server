@@ -112,7 +112,7 @@ function connect(userId) {
     var opts = {
         query: 'sender=' + userId
     };
-    socket = io.connect('http://test.huayubenji.com:9099', opts);
+    socket = io.connect('http://hadoop5', opts);
 	
     $("#username").val(userId);
     $("#userid").val(userId);
